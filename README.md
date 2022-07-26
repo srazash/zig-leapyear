@@ -15,7 +15,7 @@
 
 A learning project based on an older project I did while learning Rust a few years back.
 
-Based on the existing project [```rust-leapyear```](), zig-leapyear will:
+Based on the existing project [```rust-leapyear```](https://github.com/srazash/rust-leapyear), zig-leapyear will:
 
 - [ ] Check and confirm if the current year is a leap year.
 - [ ] List all coming leap years for the next quarter of a century!

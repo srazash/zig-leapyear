@@ -1,11 +1,12 @@
 const std = @import("std");
+const time = std.time;
 
-pub fn main() anyerror!void {
-    // Note that info level log messages are by default printed only in Debug
-    // and ReleaseSafe build modes.
-    std.log.info("All your codebase are belong to us.", .{});
+pub fn main() !void {
+    const stdout = std.io.getStdOut().writer();
+
+    try stdout.print("The year is: {d}", .{year()});
 }
 
-test "basic test" {
-    try std.testing.expectEqual(10, 3 + 7);
+fn year() !i64 {
+    try return @divFloor(time.timestamp(), 31536000) + 1970;
 }

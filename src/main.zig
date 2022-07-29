@@ -3,12 +3,22 @@ const time = std.time;
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
+    var currenYearLeapYear: bool = try boolLeapYear(try year());
+    var currentYearNow: i64 = try year();
+    const socJusEpochYear: i64 = 2015;
+    var socJusCurrentYear: i64 =  currentYearNow - socJusEpochYear;
 
-    var debugval: i64 = @mod(try year(), 100);
-    try stdout.print("{d}\n\n", .{debugval});
+    // DEGUGGING CODE, IGNORE ME!
+    //var debugval: i64 = @mod(try year(), 100);
+    //try stdout.print("{d}\n\n", .{debugval});
 
-    try stdout.print("The year is {d}.\n", .{year()});
-    try stdout.print("(It's not the future, just the present.)\n\n", .{});
+    try stdout.print("The current year is {d}. ", .{try year()});
+
+    if (currenYearLeapYear != true) {
+        try stdout.print("This year is not a leap year.\n\n", .{});
+    }
+
+    try stdout.print("By the social justice calendar it is [CURRENT YEAR]+{d}.\n\n", .{socJusCurrentYear});
 
     try isLeapYear(try year());
     try futureLeapYears(try year());
@@ -26,12 +36,11 @@ fn isLeapYear(lyear: i64) !void {
     if (@mod(lyear, 100) == 0) {
         if (@mod(@intToFloat(f64, lyear), 400.0) == 0.0) {
             try stdout.print("{d} is a leap year.\n", .{lyear});
-        } else {
-            try stdout.print("{d} is not a leap year.\n", .{lyear});
         }
-    } else {
-            try stdout.print("{d} is not a leap year.\n", .{lyear});
-
+    } else if (@mod(lyear, 100) != 0) {
+        if (@mod(@intToFloat(f64, lyear), 4.0) == 0.0) {
+            try stdout.print("{d} is a leap year.\n", .{lyear});
+        }
     }
 }
 
@@ -42,4 +51,20 @@ fn futureLeapYears(fyear: i64) !void {
     while (xyear <= fyear + 25) : (xyear += 1) {
         try isLeapYear(xyear);
     }
+}
+
+fn boolLeapYear (byear: i64) !bool {
+    var bLeapYear: bool = false;
+
+    if (@mod(byear, 100) == 0) {
+        if (@mod(@intToFloat(f64, byear), 400.0) == 0.0) {
+            bLeapYear = true;
+        }
+    } else if (@mod(byear, 100) != 0) {
+        if (@mod(@intToFloat(f64, byear), 4.0) == 0.0) {
+            bLeapYear = true;
+        }
+    }
+
+    try return bLeapYear;
 }
